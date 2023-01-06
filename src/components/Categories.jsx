@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { setCategoryId } from '../redux/slices/filterSlice';
 
-const Categories = ({value, setCategory}) => {
+const Categories = ({value, onChangeCategory}) => {
   const categories = ['All', 'Meat', 'Vegeterian', 'Grilled', 'Spicy', 'Closed'];
   return (
     <div className="categories">
       <ul>
         {categories.map((item, index) => (
           <li
-            onClick={() => setCategory(index)}
+            onClick={() => onChangeCategory(index)}
             key={item + index}
             className={value == index ? 'active' : null}>
             {item}

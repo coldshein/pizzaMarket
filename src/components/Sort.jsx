@@ -1,15 +1,38 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSortType } from '../redux/slices/filterSlice';
 
-const Sort = ({ value, setSort }) => {
+export const list = [
+  { name: 'highest rating', sortProp: 'rating' },
+  { name: 'lowest rating', sortProp: '-rating' },
+  { name: 'highest price', sortProp: 'price' },
+  { name: 'lowest price', sortProp: '-price' },
+  { name: 'title', sortProp: 'title' }];
+
+
+export const Sort = () => {
+  const dispatch = useDispatch();
+  const sort = useSelector((state) => state.filter.sort)
+  const sortRef = React.useRef();
+  const onClickListItem = (obj) => {
+    dispatch(setSortType(obj));
+    setOpen(false);
+  }
   const [open, setOpen] = React.useState(false);
-  const list = [
-    { name: 'highest rating', sortProp: 'rating' },
-    { name: 'lowest rating', sortProp: '-rating' },
-    { name: 'highest price', sortProp: 'price' },
-    { name: 'lowest price', sortProp: '-price' },
-    { name: 'title', sortProp: 'title' }]
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setOpen(false);
+      }
+    }
+    document.body.addEventListener('click', handleClickOutside);
+    return () => {
+      document.body.removeEventListener('click', handleClickOutside)
+    }
+  }, [])
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           width="10"
@@ -23,7 +46,7 @@ const Sort = ({ value, setSort }) => {
           />
         </svg>
         <b>Sort by:</b>
-        <span onClick={() => setOpen(!open)}>{value.name}</span>
+        <span onClick={() => setOpen(!open)}>{sort.name}</span>
       </div>
       {
         open ? (
@@ -31,7 +54,7 @@ const Sort = ({ value, setSort }) => {
             <ul>
               {
                 list.map((item, index) => (
-                  <li onClick={() => setSort(item)} className={value.sortProp == item.sortProp ? 'active' : null} key={item + index}>{item.name}</li>
+                  <li onClick={() => onClickListItem(item)} className={sort.sortProp == item.sortProp ? 'active' : null} key={item + index}>{item.name}</li>
                 ))
               }
             </ul>
@@ -42,4 +65,3 @@ const Sort = ({ value, setSort }) => {
   );
 };
 
-export default Sort;
