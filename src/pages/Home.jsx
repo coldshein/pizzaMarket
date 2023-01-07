@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
 import qs from 'qs';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,19 +10,17 @@ import { Sort, list } from "../components/Sort";
 
 
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { setItems, fetchPizzas } from '../redux/slices/pizzaSlice';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 import Pagination from '../components/Pagination';
-import { AppContext } from '../App';
 
 
 const Home = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-
     const { items, status } = useSelector((state) => state.pizza);
-    const { categoryId, sort, currentPage } = useSelector((state) => state.filter);
+    const { categoryId, sort, currentPage, searchValue } = useSelector((state) => state.filter);
 
     const onChangeCategory = (id) => {
         dispatch(setCategoryId(id));
@@ -31,8 +28,6 @@ const Home = () => {
     const onChangePage = (num) => {
         dispatch(setCurrentPage(num))
     }
-
-    const { searchValue } = React.useContext(AppContext);
 
     // async action (pizzaSlice)
     const getPizzas = async () => {
@@ -79,7 +74,7 @@ const Home = () => {
         navigate(`?${queryString}`)
     }, [categoryId, sort.sortProp, searchValue, currentPage])
 
-    const pizzas = items.map((item, index) => <Link to={`/pizza/${item.id}`}><PizzaBlock key={item.title + index} {...item} /></Link>)
+    const pizzas = items.map((item, index) => <Link to={`/pizza/${item.id}`} key={item.title + index} ><PizzaBlock  {...item} /></Link>)
     const skeletons = [... new Array(4)].map((name, index) => <PizzaSkeleton key={index} />)
 
     return (
@@ -89,7 +84,7 @@ const Home = () => {
                 <Sort />
             </div>
             <h2 className="content__title">{
-                searchValue.length ? `Searching for ${searchValue}` : 'All pizzas'
+                searchValue.length > 0 ? `Searching for ${searchValue}` : 'All pizzas'
             }</h2>
             {
                 status === 'error' ? (

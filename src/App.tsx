@@ -8,16 +8,14 @@
   import NotFound from "./pages/NotFound";
   import { Provider } from "react-redux";
   import { store } from './redux/store';
-  import PizzaPage from "./pages/PizzaPage";
+  import PizzaPage from "./pages/PizzaPage.tsx";
   import MainLayout from "./components/MainLayout";
 
   export const AppContext = React.createContext('');
 
   function App() {
-    const [searchValue, setSearchValue] = React.useState('');
 
     return (
-      <AppContext.Provider value={{ searchValue, setSearchValue }}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route path="*" element={<NotFound />} />
@@ -26,7 +24,6 @@
             <Route path="/cart" element={<Cart />} />
           </Route>
         </Routes>
-      </AppContext.Provider>
     );
   }
 

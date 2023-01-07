@@ -1,10 +1,14 @@
-import axios from 'axios';
 import React from 'react';
+import axios from 'axios';
 import { useParams, Link } from 'react-router-dom';
 
-const PizzaPage = () => {
+const PizzaPage: React.FC = () => {
     const { id } = useParams();
-    const [pizza, setPizza] = React.useState({});
+    const [pizza, setPizza] = React.useState<{
+        imageUrl: string;
+        title: string;
+        price: number;
+    }>();
 
     React.useEffect(() => {
         const fullPizza = async () => {
@@ -19,7 +23,7 @@ const PizzaPage = () => {
         fullPizza();
     }, [])
     if (!pizza) {
-        return "Loading..."
+        return <>Loading...</>;
     }
     return (
         <div className="full-pizza">
@@ -29,7 +33,7 @@ const PizzaPage = () => {
                 <span>from {pizza.price} ₴</span>
                 <Link to="/" className='button button--black'>Go back</Link>
             </div>
-            
+
         </div>
     );
 }
