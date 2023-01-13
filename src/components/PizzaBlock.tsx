@@ -2,18 +2,27 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/slices/cartSlice";
 
+type PizzaBlockProps ={
+  id: string;
+  imageUrl: string;
+  title: string;
+  sizes: number[]; 
+  types: number[];
+  price: number;  
 
-const PizzaBlock = ({id, imageUrl, title, types, sizes, price, category, rating}) => {
+}
+const PizzaBlock: React.FC<PizzaBlockProps> = ({id, imageUrl, title, types, sizes, price}) => {
+
   const dispatch = useDispatch();
   const typeNames = ['thin', 'traditional'];
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
-  const cartItem = useSelector((state) => state.cart.items.find((obj) => obj.id === id ));
+  const cartItem = useSelector((state:any) => state.cart.items.find((obj:any) => obj.id === id ));
   const addedCount = cartItem ? cartItem.count : 0;
-  const handleSize = (index) => {
+  const handleSize = (index:any) => {
     setActiveSize(index)
   }
-  const handleType = (index) => {
+  const handleType = (index:any) => {
     setActiveType(index)
   }
 
@@ -41,14 +50,14 @@ const PizzaBlock = ({id, imageUrl, title, types, sizes, price, category, rating}
         <ul>
           {
             types.map((item, index) => (
-              <li onClick={() => handleType(index)} className={activeType == index ? 'active' : null} key={item + index}>{typeNames[index]}</li>
+              <li onClick={() => handleType(index)} className={activeType == index ? 'active' : ''} key={item + index}>{typeNames[index]}</li>
             ))
           }
         </ul>
         <ul>
           {
             sizes.map((item,index) => (
-              <li onClick={() => handleSize(index)} className={activeSize == index ? 'active' : null} key={item + index}>{item}</li>
+              <li onClick={() => handleSize(index)} className={activeSize == index ? 'active' : ''} key={item + index}>{item}</li>
             ))
           }
         </ul>

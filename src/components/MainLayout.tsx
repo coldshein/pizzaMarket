@@ -4,7 +4,7 @@ import Header from "./Header";
 
 export const AppContext = React.createContext('');
 
-const MainLayout = () => {
+const MainLayout: React.FC = () => {
     
     return (
         <div className="wrapper">

@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { setCategoryId } from '../redux/slices/filterSlice';
 
-const Categories = ({value, onChangeCategory}) => {
+type CategoriesProps = {
+  value: number;
+  onChangeCategory: (i:number) => void;
+}
+
+const Categories: React.FC<CategoriesProps> = ({value, onChangeCategory}) => {
   const categories = ['All', 'Meat', 'Vegeterian', 'Grilled', 'Spicy', 'Closed'];
   return (
     <div className="categories">
@@ -10,7 +15,7 @@ const Categories = ({value, onChangeCategory}) => {
           <li
             onClick={() => onChangeCategory(index)}
             key={item + index}
-            className={value == index ? 'active' : null}>
+            className={value == index ? 'active' : ''}>
             {item}
           </li>
         ))}

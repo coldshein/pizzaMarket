@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import Search from './Search';
 import { useSelector, useDispatch } from 'react-redux';
 
-const Header = () => {
-  const {items, totalPrice} = useSelector((state) => state.cart);
-  const totalCount = items.reduce((sum, item) => {return sum + item.count}, 0 );
+const Header: React.FC = () => {
+  const {items, totalPrice} = useSelector((state:any) => state.cart);
+  const totalCount = items.reduce((sum:any, item:any) => {return sum + item.count}, 0 );
   return (
     <div className="header">
       <div className="container">

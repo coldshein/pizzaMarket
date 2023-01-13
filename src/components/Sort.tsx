@@ -2,7 +2,12 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSortType } from '../redux/slices/filterSlice';
 
-export const list = [
+type SortItem = {
+  name: string;
+  sortProp: string;
+};
+
+export const list: SortItem[] = [
   { name: 'highest rating', sortProp: 'rating' },
   { name: 'lowest rating', sortProp: '-rating' },
   { name: 'highest price', sortProp: 'price' },
@@ -10,20 +15,23 @@ export const list = [
   { name: 'title', sortProp: 'title' }];
 
 
-export const Sort = () => {
+export const Sort: React.FC = () => {
+
   const dispatch = useDispatch();
-  const sort = useSelector((state) => state.filter.sort)
-  const sortRef = React.useRef();
-  const onClickListItem = (obj) => {
+  const sort = useSelector((state:any) => state.filter.sort)
+
+  const sortRef = React.useRef<HTMLDivElement>(null);
+
+  const onClickListItem = (obj: SortItem) => {
     dispatch(setSortType(obj));
     setOpen(false);
   }
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!event.path.includes(sortRef.current)) {
-        setOpen(false);
-      }
+    const handleClickOutside = (event: MouseEvent) => {
+     if (sortRef.current && !event.composedPath().includes(sortRef.current)){
+      setOpen(false);
+     }
     }
     document.body.addEventListener('click', handleClickOutside);
     return () => {
@@ -54,7 +62,7 @@ export const Sort = () => {
             <ul>
               {
                 list.map((item, index) => (
-                  <li onClick={() => onClickListItem(item)} className={sort.sortProp == item.sortProp ? 'active' : null} key={item + index}>{item.name}</li>
+                  <li onClick={() => onClickListItem(item)} className={sort.sortProp == item.sortProp ? 'active' : ''} key={item.name}>{item.name}</li>
                 ))
               }
             </ul>

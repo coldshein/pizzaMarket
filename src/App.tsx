@@ -4,11 +4,11 @@
   import EmptyCart from "./EmptyCart/EmptyCart"
   import "./scss/app.scss";
   import { Route, Routes } from "react-router-dom";
-  import Cart from "./pages/Cart.jsx";
+  import Cart from "./pages/Cart";
   import NotFound from "./pages/NotFound";
   import { Provider } from "react-redux";
   import { store } from './redux/store';
-  import PizzaPage from "./pages/PizzaPage.tsx";
+  import PizzaPage from "./pages/PizzaPage";
   import MainLayout from "./components/MainLayout";
 
   export const AppContext = React.createContext('');
